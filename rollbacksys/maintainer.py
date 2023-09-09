@@ -37,5 +37,7 @@ class Action:
         return self.__rollback_func(*args)
 
 
-
+class ActionPass:
+    name: str
+    parameters: list
 

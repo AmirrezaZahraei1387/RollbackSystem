@@ -1,3 +1,4 @@
+import dataclasses
 import types
 import inspect
 
@@ -37,7 +38,12 @@ class Action:
         return self.__rollback_func(*args)
 
 
+@dataclasses.dataclass
 class ActionPass:
     name: str
     parameters: list
+
+
+
+
 

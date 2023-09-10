@@ -10,14 +10,18 @@ class Action:
     __parameters_num: int = 0
     __rollback_func: types.FunctionType
 
-    def __init__(self, name: str, rollback_func: types.FunctionType):
+    def __init__(self, name: str, rollback_func: types.FunctionType, argument_num: int = None):
 
         if name in self.all_names:
             raise NameError("Duplicated names forbidden")
 
         self.__name = name
         self.all_names.append(self.__name)
-        self.__parameters_num = len(inspect.signature(rollback_func).parameters)
+
+        if argument_num is not None:
+            self.__parameters_num = argument_num
+        else:
+            self.__parameters_num = len(inspect.signature(rollback_func).parameters)
         self.__rollback_func = rollback_func
 
     @property
@@ -35,6 +39,7 @@ class Action:
     def __call__(self, *args):
         if len(args) != self.__parameters_num:
             raise ValueError("the number of arguments passed is not equal to what expected")
+        print(len(inspect.signature(self.__rollback_func).parameters))
         return self.__rollback_func(*args)
 
 
